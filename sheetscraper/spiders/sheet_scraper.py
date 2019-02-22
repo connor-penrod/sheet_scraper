@@ -4,14 +4,17 @@ from scrapy.contrib.spiders.init import InitSpider
 import os
 
 
-class AnimenzSheetSpider(InitSpider):
-    name = "animenz_sheets"
-    login_url = 'https://sheet.host/account/login'
-    start_url = 'https://sheet.host/user/animenz/sheets'
+class SheetHostSpider(InitSpider):
+    name = "sheethost_sheets"
     
     def __init__(self):
         super().__init__()
-        self.count = 0
+        self.target = input("SheetHost composer/username to scrape (e.g. for 'sheet.host/user/animenz/sheets' it would be 'animenz'): ")
+        self.user_name = input("SheetHost username: ")
+        self.user_password = input("SheetHost password: ")
+        
+        self.login_url = 'https://sheet.host/account/login'
+        self.start_url = 'https://sheet.host/user/' + self.target + '/sheets'
     
     def init_request(self):
         """This function is called before crawling starts."""
@@ -21,7 +24,7 @@ class AnimenzSheetSpider(InitSpider):
         """Generate a login request."""
         return scrapy.FormRequest.from_response(
             response,
-            formdata={'login': '<username>', 'password': '<password>'},
+            formdata={'login': self.user_name, 'password': self.user_password},
             callback=self.check_login_response
         )
 
@@ -61,11 +64,11 @@ class AnimenzSheetSpider(InitSpider):
         
     def download_pdf(self, response, *args):
         filename = response.meta['title']
-        directory = "./extracted_sheets"
+        directory = "./extracted_sheets" + "_" + self.target
         
         if not os.path.exists(directory):
             os.makedirs(directory)
         
-        with open("extracted_sheets/" + filename + ".pdf", 'wb+') as f:
+        with open(directory + "/" + filename + ".pdf", 'wb+') as f:
             f.write(response.body)
         
