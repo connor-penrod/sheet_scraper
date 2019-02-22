@@ -9,12 +9,22 @@ class SheetHostSpider(InitSpider):
     
     def __init__(self):
         super().__init__()
-        self.target = input("SheetHost composer/username to scrape (e.g. for 'sheet.host/user/animenz/sheets' it would be 'animenz'): ")
+        self.search_type = input("Type 'user' to scrape by user or 'tag' to scrape by tag: ")
+        self.target = None
+        self.start_url = None
+        
+        if self.search_type == "user":
+            self.target = input("SheetHost composer/username to scrape (e.g. for 'sheet.host/user/animenz/sheets' it would be 'animenz'): ")
+            self.start_url = 'https://sheet.host/user/' + self.target + '/sheets'
+        elif self.search_type == "tag":
+            self.target = input("SheetHost tag to scrape (e.g. for 'sheet.host/tag/theishter' it would be 'theishter'): ")
+            self.start_url = 'https://sheet.host/tag/' + self.target
+        
+        
         self.user_name = input("SheetHost username: ")
         self.user_password = input("SheetHost password: ")
         
         self.login_url = 'https://sheet.host/account/login'
-        self.start_url = 'https://sheet.host/user/' + self.target + '/sheets'
     
     def init_request(self):
         """This function is called before crawling starts."""
