@@ -1,6 +1,7 @@
 import scrapy
 from scrapy.http import Request, FormRequest
 from scrapy.contrib.spiders.init import InitSpider
+import os
 
 
 class AnimenzSheetSpider(InitSpider):
@@ -60,7 +61,11 @@ class AnimenzSheetSpider(InitSpider):
         
     def download_pdf(self, response, *args):
         filename = response.meta['title']
-        self.count += 1
+        directory = "./extracted_sheets"
+        
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        
         with open("extracted_sheets/" + filename + ".pdf", 'wb+') as f:
             f.write(response.body)
         
