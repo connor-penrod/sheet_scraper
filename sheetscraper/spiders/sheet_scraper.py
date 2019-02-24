@@ -5,11 +5,11 @@ import os
 
 
 class SheetHostSpider(InitSpider):
-    name = "sheethost_sheets"
+    name = "sheethost"
     
     def __init__(self):
         super().__init__()
-        self.search_type = input("Type 'user' to scrape by user or 'tag' to scrape by tag: ")
+        self.search_type = input("Select criteria to scrape (user, tag, or category): ")
         self.target = None
         self.start_url = None
         
@@ -19,6 +19,10 @@ class SheetHostSpider(InitSpider):
         elif self.search_type == "tag":
             self.target = input("SheetHost tag to scrape (e.g. for 'sheet.host/tag/theishter' it would be 'theishter'): ")
             self.start_url = 'https://sheet.host/tag/' + self.target
+        elif self.search_type == "category":
+            self.target = input("SheetHost category to scrape (e.g. for 'sheet.host/category/classical' it would be 'classical'): ")
+            self.start_url = 'https://sheet.host/category/' + self.target
+            
         
         
         self.user_name = input("SheetHost username: ")
