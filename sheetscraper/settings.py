@@ -10,6 +10,7 @@
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 
 BOT_NAME = 'sheetscraper'
+USER_AGENT='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.40'
 
 SPIDER_MODULES = ['sheetscraper.spiders']
 NEWSPIDER_MODULE = 'sheetscraper.spiders'
@@ -19,7 +20,43 @@ NEWSPIDER_MODULE = 'sheetscraper.spiders'
 #USER_AGENT = 'sheetscraper (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
+COOKIES_ENABLED = True
+DOWNLOAD_DELAY = 0
+
+ROTATING_PROXY_LIST_PATH = 'proxies.txt'
+#ROTATING_PROXY_BAN_POLICY = 'sheetscraper.policy.MyPolicy'
+
+# Retry many times since proxies often fail
+#RETRY_TIMES = 200
+# Retry on most error codes since proxies fail for different reasons
+#RETRY_HTTP_CODES = [500, 503, 504, 400, 403, 404, 408]
+
+DOWNLOADER_MIDDLEWARES = {
+    #'scrapy.downloadermiddlewares.retry.RetryMiddleware': 90,
+    #'scrapy_proxies.RandomProxy': 100,
+    #'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 110,
+    'rotating_proxies.middlewares.RotatingProxyMiddleware': 610,
+    'rotating_proxies.middlewares.BanDetectionMiddleware': 620
+}
+
+DOWNLOAD_WARNSIZE = 0
+
+# Proxy list containing entries like
+# http://host1:port
+# http://username:password@host2:port
+# http://host3:port
+# ...
+#PROXY_LIST = ''
+
+# Proxy mode
+# 0 = Every requests have different proxy
+# 1 = Take only one proxy from the list and assign it to every requests
+# 2 = Put a custom proxy to use in the settings
+#PROXY_MODE = 0
+
+# If proxy mode is 2 uncomment this sentence :
+#CUSTOM_PROXY = "http://host1:port"
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32

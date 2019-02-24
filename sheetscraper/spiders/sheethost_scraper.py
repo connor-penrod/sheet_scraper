@@ -1,6 +1,6 @@
 import scrapy
 from scrapy.http import Request, FormRequest
-from scrapy.contrib.spiders.init import InitSpider
+from scrapy.spiders.init import InitSpider
 import os
 
 
