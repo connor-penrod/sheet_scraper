@@ -10,7 +10,7 @@
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 
 BOT_NAME = 'sheetscraper'
-USER_AGENT='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.40'
+USER_AGENT='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/538.40'
 
 SPIDER_MODULES = ['sheetscraper.spiders']
 NEWSPIDER_MODULE = 'sheetscraper.spiders'
@@ -22,9 +22,10 @@ NEWSPIDER_MODULE = 'sheetscraper.spiders'
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
 COOKIES_ENABLED = True
-DOWNLOAD_DELAY = 0
+DOWNLOAD_DELAY = 1
+DOWNLOAD_TIMEOUT = 720
 
-ROTATING_PROXY_LIST_PATH = 'proxies.txt'
+#ROTATING_PROXY_LIST_PATH = 'proxies.txt'
 #ROTATING_PROXY_BAN_POLICY = 'sheetscraper.policy.MyPolicy'
 
 # Retry many times since proxies often fail
